@@ -62,26 +62,6 @@ sequenceDiagram
   APP->>U: Show updated Hako balance
 ```
 
-```mermaid
-sequenceDiagram
-  participant U as User wallet
-  participant APP as Hako app
-  participant RV as Remote vault
-  participant AL as Allocator
-  participant HV as Home vault
-
-  U->>APP: Choose token and amount
-  APP->>U: Ask to approve + send deposit tx
-  U->>RV: Deposit tx (stablecoin -> vault)
-
-  RV-->>AL: On-chain Deposit event<br>(user, token, chain, amount)
-
-  AL->>HV: Record deposit on home vault
-  HV-->>U: Mint LP tokens on home chain
-
-  APP->>U: Show updated Hako balance
-```
-
 From this point on, the deposit is fully included in the global pool, and the allocator can decide how to allocate that liquidity.
 
 #### Asset Allocation Lifecycle
