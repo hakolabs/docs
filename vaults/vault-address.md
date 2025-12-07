@@ -8,6 +8,8 @@ icon: memo-pad
 
 ### Home Vault
 
+**Polygon (chain Id: 137)**
+
 <table><thead><tr><th width="246.828125">Contract</th><th>Address</th></tr></thead><tbody><tr><td>HakoHomeVault</td><td>0x704Cc36Fe536c4DD45477c79e752c41932BbaF02</td></tr><tr><td>Proxy</td><td>0x717882AB8e82aFD999C7E5bEA87E07eC78D82C62</td></tr></tbody></table>
 
 ### Remote Vaults
