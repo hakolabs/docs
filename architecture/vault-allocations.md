@@ -62,6 +62,26 @@ sequenceDiagram
   APP->>U: Show updated Hako balance
 ```
 
+```mermaid
+sequenceDiagram
+  participant U as User wallet
+  participant APP as Hako app
+  participant RV as Remote vault
+  participant AL as Allocator
+  participant HV as Home vault
+
+  U->>APP: Choose token and amount
+  APP->>U: Ask to approve + send deposit tx
+  U->>RV: Deposit tx (stablecoin -> vault)
+
+  RV-->>AL: On-chain Deposit event<br>(user, token, chain, amount)
+
+  AL->>HV: Record deposit on home vault
+  HV-->>U: Mint LP tokens on home chain
+
+  APP->>U: Show updated Hako balance
+```
+
 From this point on, the deposit is fully included in the global pool, and the allocator can decide how to allocate that liquidity.
 
 #### Asset Allocation Lifecycle
@@ -121,13 +141,12 @@ This section explains what happens inside Hako after you request a withdrawal. I
 
 ### Hako Admin Wallet
 
-Most operational transactions in Hako are signed by a dedicated `Admin Wallet`. This wallet triggers on-chain actions on the home and remote vaults: recording deposits that arrived on remote chains, moving liquidity between vaults and NEAR Intents, interacting with external  vaults, and finalizing withdrawals.
+Most operational transactions in Hako are signed by a dedicated `Admin Wallet`. This wallet triggers on-chain actions on the home and remote vaults: recording deposits that arrived on remote chains, moving liquidity between vaults and NEAR Intents, interacting with external vaults, and finalizing withdrawals.
 
 User actions stay under user control: deposits are normal token transfers from user wallets, and withdrawals are authorized by users signing typed messages.
 
-`Admin Wallet` can move vault liquidity within the allowed paths of the protocol, it is part of the overall risk model. If this key were ever compromised, an attacker could attempt to use the same operational permissions that the allocator uses.&#x20;
+`Admin Wallet` can move vault liquidity within the allowed paths of the protocol, it is part of the overall risk model. If this key were ever compromised, an attacker could attempt to use the same operational permissions that the allocator uses.
 
 {% hint style="info" %}
 To reduce this single-key risk and better match institutional expectations, we plan to migrate `Admin Wallet` to an **MPC-based** setup, where control is split across multiple parties and no single key is sufficient to operate it.
 {% endhint %}
-
