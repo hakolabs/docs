@@ -11,6 +11,7 @@
 ## Vaults
 
 * [Super Stable](vaults/interactive-blocks.md)
+* [Vault Address](vaults/vault-address.md)
 
 ## Architecture
 
