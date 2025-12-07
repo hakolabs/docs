@@ -8,9 +8,9 @@ icon: line-height
 
 # Withdrawal Queue
 
-When you request a withdrawal in the app, you only sign a message. &#x20;
+When you request a withdrawal in the app, you only sign a message.
 
-The signed request is picked up by the allocator, sent to the `home vault` as an on-chain transaction, and turned into an entry in the withdrawal queue.&#x20;
+The signed request is picked up by the allocator, sent to the `home vault` as an on-chain transaction, and turned into an entry in the withdrawal queue.
 
 **Then, the allocator engine:**
 
@@ -53,7 +53,6 @@ sequenceDiagram
 
   AL->>HV: Finalize withdrawal tx
   Note over HV: Burn locked LP tokens,<br>update total assets
+  
+  
 ```
-
-
-
