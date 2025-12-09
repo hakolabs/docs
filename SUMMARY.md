@@ -18,3 +18,4 @@
 * [Vault Allocations](architecture/vault-allocations.md)
 * [Withdrawal Queue](architecture/withdrawal-queue.md)
 * [Risks](architecture/risks.md)
+* [Roadmap](architecture/roadmap.md)

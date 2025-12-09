@@ -30,4 +30,5 @@ Hako continuously scans the ecosystem of trusted, verified vault providers and y
 
 
 
-**Home:** [http://hakolabs.app/](http://hakolabs.app/)
+**Home:** [http://hakolabs.app/](http://hakolabs.app/)\
+Git: [https://github.com/hakolabs](https://github.com/hakolabs)
