@@ -4,14 +4,31 @@
 
 ## Learn
 
-* [Quickstart](learn/quickstart.md)
+* [How to use Hako](learn/quickstart.md)
 * [Deposit](learn/deposit.md)
 * [Withdrawal](learn/withdrawal.md)
 
-## Vaults
+## Integration
 
-* [Super Stable](vaults/interactive-blocks.md)
-* [Vault Address](vaults/vault-address.md)
+* [Getting Starting](integration/getting-starting.md)
+* [API](integration/api/README.md)
+  * ```yaml
+    type: builtin:openapi
+    props:
+      models: true
+      downloadLink: true
+    dependencies:
+      spec:
+        ref:
+          kind: openapi
+          spec: hako-api
+    ```
+
+## Contracts
+
+* [Stable Vault](contracts/stable-vault.md)
+* [Stable Gateway](contracts/stable-gateway.md)
+* [Addresses](contracts/addresses.md)
 
 ## Architecture
 

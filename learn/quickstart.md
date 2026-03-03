@@ -4,23 +4,9 @@ description: >-
   choose a vault, make your first deposit, and understand what you see in the
   app.
 icon: bolt
-layout:
-  width: default
-  title:
-    visible: true
-  description:
-    visible: true
-  tableOfContents:
-    visible: true
-  outline:
-    visible: true
-  pagination:
-    visible: true
-  metadata:
-    visible: true
 ---
 
-# Quickstart
+# How to use Hako
 
 **Hako** is a DeFi earning platform and vault system. You deposit once into a vault, receive an LP token that represents your share, and Hako’s liquidity engine allocates your funds across multiple strategies and chains in the background.
 
