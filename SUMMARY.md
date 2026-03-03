@@ -1,16 +1,20 @@
 # Table of contents
 
 * [Introduction](README.md)
+* [Supported Networks](supported-networks.md)
 
 ## Learn
 
-* [How to use Hako](learn/quickstart.md)
+* [Getting Started](learn/quickstart.md)
 * [Deposit](learn/deposit.md)
 * [Withdrawal](learn/withdrawal.md)
+* [Swap](learn/swap.md)
 
 ## Integration
 
 * [Getting Starting](integration/getting-starting.md)
+* [Deposit Flow](integration/deposit-flow.md)
+* [Withdrawal Flow](integration/withdrawal-flow.md)
 * [API](integration/api/README.md)
   * ```yaml
     type: builtin:openapi
@@ -24,11 +28,11 @@
           spec: hako-api
     ```
 
-## Contracts
+## VAULTS
 
-* [Stable Vault](contracts/stable-vault.md)
-* [Stable Gateway](contracts/stable-gateway.md)
-* [Addresses](contracts/addresses.md)
+* [Contract Schema](vaults/contract-schema.md)
+* [Stable Vault](vaults/stable-vault.md)
+* [Contract Addresses](vaults/contract-addresses.md)
 
 ## Architecture
 

@@ -4,9 +4,11 @@ icon: hand-wave
 
 # Introduction
 
-**Hako** is a DeFi earning platform and vault system that automates how liquidity is allocated across chains and strategies. Instead of managing individual positions on multiple protocols and networks, users interact with a single vault, while an AI-powered liquidity engine redistributes assets on-chain in search of real yield.
+<figure><img src=".gitbook/assets/Social preview app.hakolabs.app.png" alt=""><figcaption></figcaption></figure>
 
-Hako continuously scans the ecosystem of trusted, verified vault providers and yield pools, aggregates many opportunities, and reallocates liquidity between them. Rather than relying on one source of yield, the system maintains a diversified portfolio that can adapt as market conditions change.
+**Hako** is a DeFi earning platform and vault system that automates how liquidity is allocated across chains and strategies. Instead of managing individual positions on multiple protocols and networks, users interact with a single vault, while a smart powered liquidity engine redistributes assets on-chain in search of real yield.
+
+**Hako** continuously scans the ecosystem of trusted, verified vault providers and yield pools, aggregates many opportunities, and reallocates liquidity between them. Rather than relying on one source of yield, the system maintains a diversified portfolio that can adapt as market conditions change.
 
 **Key advantages:**
 
@@ -16,5 +18,9 @@ Hako continuously scans the ecosystem of trusted, verified vault providers and y
 
 
 
-**Home:** [http://hakolabs.app/](http://hakolabs.app/)\
-Git: [https://github.com/hakolabs](https://github.com/hakolabs)
+### Hako Dashboard
+
+<figure><img src=".gitbook/assets/Screenshot 2026-03-03 at 17.11.01.png" alt="" width="563"><figcaption></figcaption></figure>
+
+**Try now:** [app.hakolabs.app](http://app.hakolabs.app/)\
+**Sources:** [github.com/hakolabs](https://github.com/hakolabs)
