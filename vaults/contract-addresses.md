@@ -1,5 +1,6 @@
 ---
 description: Lists current contract deployment addresses for public integrations.
+icon: file-lock
 ---
 
 # Contract Addresses
