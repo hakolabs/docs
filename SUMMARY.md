@@ -10,6 +10,13 @@
 * [Withdrawal](learn/withdrawal.md)
 * [Swap](learn/swap.md)
 
+## Architecture
+
+* [Vault Allocations](architecture/vault-allocations.md)
+* [Withdrawal Queue](architecture/withdrawal-queue.md)
+* [Risks](architecture/risks.md)
+* [Roadmap](architecture/roadmap.md)
+
 ## Integration
 
 * [Getting Starting](integration/getting-starting.md)
@@ -33,10 +40,4 @@
 * [Contract Schema](vaults/contract-schema.md)
 * [Stable Vault](vaults/stable-vault.md)
 * [Contract Addresses](vaults/contract-addresses.md)
-
-## Architecture
-
-* [Vault Allocations](architecture/vault-allocations.md)
-* [Withdrawal Queue](architecture/withdrawal-queue.md)
-* [Risks](architecture/risks.md)
-* [Roadmap](architecture/roadmap.md)
+* [Audits](vaults/audits.md)
