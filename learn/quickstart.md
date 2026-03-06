@@ -1,8 +1,8 @@
 ---
 description: >-
   Start using Hako in a few minutes: connect your wallet, choose a network and
-  token, make
-  your first deposit, and learn the basic concepts you will see in the product.
+  token, make your first deposit, and learn the basic concepts you will see in
+  the product.
 icon: bolt
 ---
 
@@ -53,7 +53,9 @@ flowchart LR
 * **Network fees (gas)**: fees paid to the network to include transactions; not paid to Hako.
 * **Supported networks**: where Hako is live today. See [Supported Networks](../supported-networks.md).
 
-## Step 1: Connect your wallet
+## How to use
+
+### Step 1: Connect your wallet
 
 Make sure your wallet is installed and unlocked, then open the Hako app and press `Connect wallet`.
 
@@ -65,15 +67,13 @@ Hako cannot move funds without your wallet confirming a transaction (or signing 
 
 <figure><img src="../.gitbook/assets/Screenshot 2025-12-02 at 15.39.39.png" alt=""><figcaption></figcaption></figure>
 
-## Step 2: Choose network + token
+### Step 2: Choose network + token
 
 Choose the network and token you want to use in the deposit form.
 
 If your wallet is on the wrong network, switch networks in your wallet first. See: [Supported Networks](../supported-networks.md)
 
-Follow the full walkthrough here: [Deposit](deposit.md)
-
-## Step 3: Make your first deposit
+### Step 3: Make your first deposit
 
 At a high level, depositing looks like this:
 
@@ -86,14 +86,13 @@ At a high level, depositing looks like this:
 Token approvals are normal in DeFi. They allow the vault to use your selected asset for deposits.
 {% endhint %}
 
-For exact UI steps, use the deposit guide: [Deposit](deposit.md)
+For exact steps, use the deposit guide: [Deposit](deposit.md)
 
-## Step 4: Track your position
+### Step 4: Track your position
 
-After your deposit confirms, you can see your vault balance (your position) and an APY estimate.
-APY is indicative, not guaranteed, and balances may update only after the relevant confirmations complete.
+After your deposit confirms, you can see your vault balance (your position) and an APY estimate. APY is indicative, not guaranteed, and balances may update only after the relevant confirmations complete.
 
-## Step 5: Withdraw
+### Step 5: Withdraw
 
 Withdrawals may not be instant. In general, you will:
 

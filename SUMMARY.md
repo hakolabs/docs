@@ -24,10 +24,10 @@
 * [Withdrawal Flow](integration/withdrawal-flow.md)
 * [API](integration/api/README.md)
   * ```yaml
-    type: builtin:openapi
     props:
       models: true
       downloadLink: true
+    type: builtin:openapi
     dependencies:
       spec:
         ref:
