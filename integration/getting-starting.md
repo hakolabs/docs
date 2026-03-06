@@ -5,29 +5,28 @@ icon: handshake
 
 # Getting Started
 
-This page is the fastest path to Hako integration.
-It explains how to get access, where to start in the API, and what the first deposit and withdrawal flow looks like.
+This page is the fastest path to Hako integration. It explains how to get access, where to start in the API, and what the first deposit and withdrawal flow looks like.
 
 ## Base URL
 
-```text
-https://app.hakolabs.app
+```
+https://app.hakolabs.app/v1
 ```
 
-- Swagger / API docs: `https://app.hakolabs.app/v1/docs`
-- OpenAPI spec: `https://app.hakolabs.app/v1/openapi.yml`
+* Swagger / API docs: `https://app.hakolabs.app/v1/docs`
+* OpenAPI spec: `https://app.hakolabs.app/v1/openapi.yml`
 
 ## Before You Start
 
-- Partner requests are authenticated with `X-API-Key`.
-- Action creation is idempotent per partner through `externalId`, so each deposit or withdrawal request should use its own partner-side idempotency key.
+* Partner requests are authenticated with `X-API-Key`.
+* Action creation is idempotent per partner through `externalId`, so each deposit or withdrawal request should use its own partner-side idempotency key.
 
 ## Get API Key
 
 To request API key and start integration, contact Hako here:
 
-- Email: [contact@hakolabs.app](mailto:contact@hakolabs.app)
-- Telegram: [@rolaman](https://t.me/rolaman)
+* Email: [contact@hakolabs.app](mailto:contact@hakolabs.app)
+* Telegram: [@rolaman](https://t.me/rolaman)
 
 ## Authentication
 
@@ -68,11 +67,11 @@ curl -X POST "https://app.hakolabs.app/v1/quotes/deposit" \
 
 ## Flow References
 
-- Deposit Flow - [deposit-flow.md](deposit-flow.md)
-- Withdrawal Flow - [withdrawal-flow.md](withdrawal-flow.md)
+* Deposit Flow - [deposit-flow.md](deposit-flow.md)
+* Withdrawal Flow - [withdrawal-flow.md](withdrawal-flow.md)
 
 ## Integration Example
 
 A reference integration example will live here:
 
-- [Integration Example](https://github.com/hakolabs/hako-integration-example)
+* [Integration Example](https://github.com/hakolabs/hako-integration-example)
