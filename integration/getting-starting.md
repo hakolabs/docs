@@ -3,26 +3,58 @@ description: This page helps partners reach a first successful Hako integration 
 icon: handshake
 ---
 
-# Getting Starting
+# Getting Started
 
-#### Base URL
+This page is the fastest path to Hako integration.
+It explains how to get access, where to start in the API, and what the first deposit and withdrawal flow looks like.
 
+## Base URL
+
+```text
+https://app.hakolabs.app/v1/
 ```
-http://app.hakoapp.app/v1
-```
 
-#### Auth Model
+- Swagger / API docs: `https://app.hakolabs.app/v1/docs`
+- OpenAPI spec: `https://app.hakolabs.app/v1/openapi.yml`
 
-_Hako_ uses API key authentication. Expected request header:
+## Before You Start
+
+- Requests are authenticated with `X-API-Key`.
+- Action creation is idempotent per partner through `externalId`, so each deposit or withdrawal request should use its own partner-side idempotency key.
+
+## Get API Key
+
+To request a partner API key and start integration, contact Hako here:
+
+- Email: [contact@hakolabs.app](mailto:contact@hakolabs.app)
+- Telegram: [@rolaman](https://t.me/rolaman)
+
+## Authentication
+
+Hako uses API key authentication. Expected request header:
 
 ```http
-X-API-Key: <YOUR_PARTNER_API_KEY>
+X-API-Key: <YOUR_API_KEY>
 ```
 
-#### Request Example
+## Integration Path
+
+For a successful integration, use this sequence:
+
+1. Check service availability with `GET /v1/health`.
+2. Read available strategies with `GET /v1/strategy` and `GET /v1/strategy/:strategyId`.
+3. Request a quote with `POST /v1/quotes/deposit` or `POST /v1/quotes/withdraw`.
+4. Create an action with `POST /v1/action/deposit` or `POST /v1/action/withdraw`.
+5. For deposits, let the user send the onchain transaction and then call `POST /v1/action/:actionId/report`.
+6. For withdrawals, let the user sign the returned typed data and then call `POST /v1/action/:actionId/authorize`.
+7. Poll `GET /v1/action/:actionId` until the action reaches a terminal state.
+
+## First Authenticated Request
+
+Example deposit quote request:
 
 ```bash
-curl -X POST "<BASE_URL>/v1/quotes/deposit" \
+curl -X POST "https://app.hakolabs.app/v1/quotes/deposit" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>" \
   -d '{
@@ -34,16 +66,13 @@ curl -X POST "<BASE_URL>/v1/quotes/deposit" \
   }'
 ```
 
-#### 5-Minute Happy Path
+## Flows
 
-1. Confirm service health.
-2. Fetch strategy metadata.
-3. Request a deposit quote.
-4. Create a deposit action.
-5. Track action status until terminal state.
+- Deposit Flow: [deposit-flow.md](deposit-flow.md)
+- Withdrawal Flow: [withdrawal-flow.md](withdrawal-flow.md)
 
-#### Useful links
+## Integration Example
 
-* Integration API - [api](api/ "mention")
-* Contract Schema - [contract-schema.md](../vaults/contract-schema.md "mention")
-* Contract Addresses - [contract-addresses.md](../vaults/contract-addresses.md "mention")&#x20;
+A reference integration example will live here:
+
+- [Example Project](https://github.com/hakolabs/hako-integration-example)
