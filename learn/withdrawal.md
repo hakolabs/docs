@@ -8,7 +8,7 @@ icon: money-from-bracket
 
 # Withdrawal
 
-#### 1. Switch _Withdrawal_ Form
+#### 1. Open _Withdrawal_ Form
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-03-06 at 12.28.51.png" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -28,7 +28,7 @@ Your wallet will open a message-signing dialog, not a normal gas-paying transact
 Processing time depends on market and network conditions. It is usually relatively short, but it is not instant and not guaranteed.
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/Screenshot 2025-12-02 at 16.15.06.png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2026-03-06 at 17.08.47.png" alt="" width="563"><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Hako covers the gas for this request-submission step. In your wallet, you are authorizing the withdrawal request, not sending a gas-paying transaction yourself.
