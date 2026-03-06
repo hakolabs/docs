@@ -8,11 +8,11 @@ icon: money-from-bracket
 
 # Withdrawal
 
-#### 1. Open _Withdrawal_ Form
+#### 1. Switch _Withdrawal_ Form
 
-<figure><img src="../.gitbook/assets/Screenshot 2025-12-02 at 16.07.31.png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2026-03-06 at 12.28.51.png" alt="" width="375"><figcaption></figcaption></figure>
 
-#### 2. Choose amount, network, and token
+#### 2. Choose amount and token
 
 Enter the amount you want to withdraw. Then choose the destination network and the token you want to receive there.
 
@@ -45,12 +45,9 @@ After you sign the withdrawal request, it will be processed based on market and 
 3. Withdrawals are usually completed in under 30 minutes, but can take longer during network congestion, route constraints, or unusual market conditions.
 
 {% hint style="info" %}
-Withdrawals are usually completed in under 30 minutes, but timing is not guaranteed.
+Withdrawals are usually completed in under 10-30 minutes, but timing is not guaranteed.
 {% endhint %}
 
 #### 5. Confirm funds in your wallet
 
 Once completed, assets arrive in your wallet on the destination network and token you selected.
-
-`[PLACEHOLDER: completed state screenshot]`
-
