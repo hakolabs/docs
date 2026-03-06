@@ -8,6 +8,7 @@ icon: file-lock
 Use proxy addresses for integrations.
 Implementation addresses are included for verification and upgrade reference.
 
+
 | Network | Id | Contract | Proxy | Implementation | Explorer |
 | --- | --- | --- | --- | --- | --- |
 | Base | `8453` | `HakoStableVault` | `0xda6600Dd3124f07EC82304b059248e5b529864df` | `0xF3A64AdE66868601C667f2fC71368092541e238a` | [BaseScan](https://basescan.org/address/0xda6600Dd3124f07EC82304b059248e5b529864df) |
