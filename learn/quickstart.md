@@ -65,7 +65,7 @@ Choose your wallet type (MetaMask, WalletConnect, etc.), approve the connection,
 Hako cannot move funds without your wallet confirming a transaction (or signing a message where applicable).
 {% endhint %}
 
-<figure><img src="../.gitbook/assets/Screenshot 2025-12-02 at 15.39.39.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/Screenshot 2026-03-06 at 12.21.00.png" alt="" width="563"><figcaption></figcaption></figure>
 
 ### Step 2: Choose network + token
 
