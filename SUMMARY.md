@@ -18,7 +18,7 @@
 
 ## Integration
 
-* [Getting Starting](integration/getting-starting.md)
+* [Getting Started](integration/getting-starting.md)
 * [Deposit Flow](integration/deposit-flow.md)
 * [Withdrawal Flow](integration/withdrawal-flow.md)
 * [API](integration/api/README.md)
