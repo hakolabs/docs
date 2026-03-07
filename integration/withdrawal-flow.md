@@ -135,22 +135,10 @@ The `authorization` field returned by `POST /v1/action/withdraw` is a JSON strin
 The typed data uses `primaryType: WithdrawalAuthorization`.
 
 ```ts
-// usign viem
 const authorization = JSON.parse(action.authorization);
-
 const signature = await walletClient.signTypedData({
   account,
-  domain: authorization.domain,
-  types: authorization.types,
-  primaryType: authorization.primaryType,
-  message: {
-    ...authorization.message,
-    dstChainId: BigInt(authorization.message.dstChainId),
-    amountNormalized: BigInt(authorization.message.amountNormalized),
-    maxShares: BigInt(authorization.message.maxShares),
-    nonce: BigInt(authorization.message.nonce),
-    deadline: BigInt(authorization.message.deadline),
-  },
+  ...authorization,
 });
 ```
 
