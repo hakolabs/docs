@@ -8,7 +8,7 @@ icon: money-from-bracket
 
 # Withdrawal
 
-#### 1. Open _Withdrawal_ Form
+#### 1. Open Withdrawal Form
 
 <figure><img src="../.gitbook/assets/Screenshot 2026-03-06 at 12.28.51.png" alt="" width="375"><figcaption></figcaption></figure>
 
