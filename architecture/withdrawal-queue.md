@@ -1,58 +1,91 @@
 ---
 description: >-
-  The withdrawal queue is the part of Hako that manages withdrawals over time.
-  It keeps track of user requests, locks the corresponding LP tokens and
-  coordinates liquidity movements across chains.
+  The withdrawal queue is the part of Hako that accepts withdrawal requests,
+  locks the relevant share balance, prepares payout liquidity, and closes final
+  accounting in the correct order.
 icon: line-height
 ---
 
 # Withdrawal Queue
 
-When you request a withdrawal in the app, you only sign a message.
+## What Is It
 
-The signed request is picked up by the allocator, sent to the `home vault` as an on-chain transaction, and turned into an entry in the withdrawal queue.
+The withdrawal queue is not just a waiting list. 
+It is the part of Hako that turns an accepted withdrawal request into an actual payout while keeping the vault's portfolio and share accounting consistent across chains.
 
-**Then, the allocator engine:**
+At a high level, the queue has three jobs:
 
-1. Locks the requested part of your LP position in the home vault.
-2. Prepares liquidity by redeeming from external vaults and moving funds through NEAR Intents.
-3. Sends tokens to your address on the chosen destination chain.
-4. Updates the home vault to reflect that this portion of your position has been paid out and burned.
+1. Record that a withdrawal has been accepted on-chain.
+2. Lock the corresponding portion of the user's vault position.
+3. Coordinate payout and final accounting in the correct order.
+
+Entering the queue does not mean liquidity is already sitting idle and reserved for immediate payout. 
+It means the withdrawal has been accepted into the vault's canonical lifecycle and will now be processed against available liquidity, routing, and accounting rules.
+
+## Request Acceptance
+
+Once a withdrawal request is accepted, the relevant portion of the user's vault position is locked. 
+Those shares still belong to the user, but they are no longer available to transfer or reuse while the allocator prepares the withdrawal.
 
 {% hint style="info" %}
-The queue exists so that all of this can be done in order, in batches, and in sync with vault allocations and cross-chain movements.
+Home vault accepts withdrawals through `requestWithdrawal(...)` or `requestRedeem(...)`, and Hako closes the lifecycle with `completeWithdrawal(...)`. See [Contract Schema](../vaults/contract-schema.md).
 {% endhint %}
 
+## Liquidity
+
+Hako does not assume that the destination side already holds enough of the exact payout token for every request.
+Instead, it prepares liquidity in stages, using the least disruptive source first.
+
+At a high level, Hako tries to:
+
+1. Use idle balance already sitting on the destination side.
+2. If needed, redeem liquidity from external positions.
+3. If needed, convert supported stablecoin liquidity already on that chain.
+4. If needed, move liquidity from another Hako vault.
+
+A request may spend time in processing, because Hako is preparing the correct liquidity on the correct chain in the correct payout asset.
+
+## NEAR Intents
+
+Hako uses [NEAR Intents](https://docs.near-intents.org/) to route liquidity between Hako-controlled vaults. 
+It is part of how Hako prepares the payout location, not a replacement for the vault-level payout flow itself.
+
+In practice, NEAR Intents:
+
+- move stablecoin liquidity from one Hako vault to another across chains
+- convert between supported stablecoins as part of that movement
+- deliver the required liquidity into the destination Hako vault before payout is attempted
+
+Liquidity is prepared between Hako-controlled vaults first. 
+Only after it arrives on the destination side can Hako complete the user payout there. 
+For a broader view of how routing fits into the portfolio, see [Smart Allocation](vault-allocations.md).
+
 ```mermaid
-sequenceDiagram
-  participant U as User wallet
-  participant APP as Hako app
-  participant AL as Allocator
-  participant HV as Home vault
-  participant EX as External vaults
-  participant NI as Hako NEAR Intents
-  participant DST as User address<br>(terget chain)
-
-  U->>APP: Fill amount, chain, token to withdraw
-  APP->>U: Show typed data
-  U-->>APP: Signed EIP-712<br>withdrawal message
-
-  APP-->>AL: Forward signed message
-  AL->>HV: Submit withdrawal signed data
-  Note over HV: Verify signature,<br>create queue entry,<br>lock LP tokens
-  HV-->>AL: Withdrawal request event
-
-  AL->>EX: Redeem from external vaults
-  EX-->>HV: Return stablecoins<br>to Hako vaults
-
-  AL->>HV: Approve Near Intent<br>to spend required amount
-  HV->>NI: Transfer stablecoins
-
-  AL->>NI: Swap/bridge to target chain
-  NI->>DST: Send requested stablecoin
-
-  AL->>HV: Finalize withdrawal tx
-  Note over HV: Burn locked LP tokens,<br>update total assets
-  
-  
+graph LR
+  A["Withdrawal request accepted"] --> B["Relevant shares locked"]
+  B --> C["Hako prepares payout liquidity"]
+  C --> D["NEAR Intents move/convert stablecoin liquidity"]
+  D --> E["Destination-side payout completed"]
+  E --> F["Home-vault final completion"]
 ```
+
+## Finalization
+
+“Paid out” and “fully completed” are not always the same moment.
+
+If the withdrawal is completed on the home chain, payout and final completion can happen together. 
+If the withdrawal is completed on another chain, the destination-side payout can happen first, and the home vault closes the canonical accounting afterwards.
+
+That final home-vault completion is what makes the withdrawal fully complete from the vault's perspective. 
+It closes the canonical withdrawal lifecycle, burns the locked shares, and updates the unified accounting for the product.
+
+The user-facing progression is:
+
+1. **Request accepted**
+2. **Processing**
+3. **Payout completed**
+4. **Finalized**
+
+{% hint style="warning" %}
+Treat only the final stage as full completion from the vault's perspective. A withdrawal may already be paid out on the destination side while final home-vault accounting is still being closed.
+{% endhint %}
