@@ -6,7 +6,7 @@ icon: circle-dollar
 
 The Stable Vault is Hako's current vault product for stablecoins.
 It accepts supported stablecoins across supported networks, normalizes them into one shared accounting system,
-and allocates capital into enabled external yield venues.
+and allocates capital into enabled external yield vaults.
 
 Base is the current home chain. `HakoStableVault` on Base is the source of truth for vault shares,
 total managed assets, and withdrawal finalization.
