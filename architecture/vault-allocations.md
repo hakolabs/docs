@@ -1,132 +1,120 @@
 ---
 description: >-
-  This page explains how funds are aggregated, moved across chains, and
-  allocated into external stablecoin vaults and protocols using NEAR Intents.
+  The page explains how Hako allocates capital across chains and curated
+  external yield venues while maintaining one unified vault experience.
 icon: compass
 ---
 
-# Vault Allocations
+# Smart Allocation
 
-### Big picture
+Hako is designed to feel like one vault product, even when liquidity is spread across multiple chains and multiple external yield venues.
+Users interact with a simple deposit and withdrawal flow, while the system manages where capital is held, where it is routed, and where it is deployed.
 
-At a high level, Hako's allocation system connects 4 layers:
+At any point in time, vault assets may sit as liquid balances inside Hako vaults, move through cross-chain routing, 
+or be allocated into curated external venues. For product-specific details about the current stablecoin vault, see [Stable Vault](../vaults/stable-vault.md).
 
-* Users wallets.
-* Hako vault contracts.
-* NEAR Intents as a cross-chain and swapping layer.
-* External stablecoin vaults and protocols.
+## Structure
 
-### Hako Vault Contracts
+Hako combines several layers into one portfolio system.
 
-Even though users can deposit on many chains, Hako is managed as one global pool of stablecoin value.
+| Layer           | Role                                                                        |
+|-----------------|-----------------------------------------------------------------------------|
+| Home vault      | Canonical accounting for managed assets, user shares, and portfolio value   |
+| Remote vaults   | Local entrypoints for deposits, liquidity, and payouts on additional chains |
+| Allocator       | Decides how capital should be positioned across the system                  |
+| NEAR Intents    | Routes assets across chains and between supported stablecoins               |
+| External vaults | Curated third-party venues where capital can be deployed for yield          |
 
-There are two types of Hako vault contracts: the **home** vault and **remote** vaults.
-
-<table><thead><tr><th width="202.1328125">Feature</th><th>Home Vault</th><th>Remote Vault</th></tr></thead><tbody><tr><td><strong>Location</strong></td><td>"Home" chain (<em>Polygon</em>)</td><td>Each supported additional chain</td></tr><tr><td><strong>Role</strong></td><td>Global accounting and core vault logic</td><td>Chain entry point and liquidity holder</td></tr><tr><td><strong>LP token</strong></td><td>Mints and burns the vault LP token</td><td>Does not mint LP tokens</td></tr><tr><td><strong>View of total assets</strong></td><td>Tracks the full vault AUM across all chains</td><td>Tracks only local balances and positions</td></tr><tr><td><strong>Withdrawals</strong></td><td>Hosts the withdrawal queue and finalizes burns</td><td>May be used to pay out withdrawals on that chain</td></tr><tr><td><strong>Controllers / operations</strong></td><td>Main control point for strategy and queues</td><td>Operated by the same controllers for local actions</td></tr><tr><td><strong>External strategies</strong></td><td>Can hold and manage positions on its own chain</td><td>Can hold and manage positions on their own chain</td></tr></tbody></table>
-
-The **home vault** is the core of the system. It lives on the home chain and is the only contract that mints and burns the vault LP token. It maintains the global view of total assets under management, the withdrawal queue, and the relationship between LP supply and asset value.
-
-**Remote vaults** extend this vault to other chains. They allow users to deposit stablecoins directly on those chains, hold local liquidity, and integrate with local strategies. Each remote vault emits events that the off-chain allocator uses to update the home vault’s accounting and to decide how much capital should stay local, be invested into local protocols, or be moved out via NEAR Intents.
-
-{% hint style="info" %}
-**Together, the home vault and remote vaults behave like one unified vault:**
-
-* Users can enter from multiple chains, but their position is always represented by the LP token on the home chain.
-* Local liquidity and strategies live on remote vaults where it makes sense operationally.
-* Global decisions about allocations, share price, and withdrawals are anchored in the home vault.
-{% endhint %}
-
-### From deposits to external vaults
-
-#### Deposit Lifecycle
-
-At the user level, a deposit is simple: you send stablecoins to a Hako vault and receive LP tokens. Internally, there is a coordinated on-chain and off-chain flow involving remote vaults, the home vault, and the allocator.
+Together, these layers let Hako operate as one vault product across multiple chains.
 
 ```mermaid
-sequenceDiagram
-  participant U as User wallet
-  participant APP as Hako app
-  participant RV as Remote vault
-  participant AL as Allocator
-  participant HV as Home vault
-
-  U->>APP: Choose token and amount
-  APP->>U: Ask to approve + send deposit tx
-  U->>RV: Deposit tx (stablecoin -> vault)
-
-  RV-->>AL: On-chain Deposit event<br>(user, token, chain, amount)
-
-  AL->>HV: Record deposit on home vault
-  HV-->>U: Mint LP tokens on home chain
-
-  APP->>U: Show updated Hako balance
+flowchart LR
+  U["Users"] --> V["Hako vaults"]
+  V --> A["Allocator"]
+  A --> N["NEAR Intents / 1Click"]
+  A --> E["Curated external yield venues"]
+  N --> V
+  E --> V
+  V --> H["Hako home vault"]
+  H --> U
 ```
 
-From this point on, the deposit is fully included in the global pool, and the allocator can decide how to allocate that liquidity.
+## How Capital Gets Allocated
 
-#### Asset Allocation Lifecycle
+Hako does not route funds into arbitrary opportunities.
+Capital is only allocated into curated external vaults and supported assets that Hako has reviewed operationally and enabled onchain.
+This creates two layers of control: venue selection at the protocol level and execution approval at the vault level.
+
+If a venue is removed from new allocations, that does not mean capital is trapped.
+Hako can stop sending fresh funds there while still unwinding existing positions and returning liquidity back into Hako-controlled vault balances.
+
+Strategy updates are handled as a portfolio problem rather than a single-venue toggle.
+The allocator compares approved opportunities across chains, spreads capital across multiple venues, 
+and rebalances when relative opportunity, available liquidity, or portfolio shape changes. 
+The goal is not to chase one source of yield, but to maintain a diversified allocation across the approved universe.
+
+The allocator also distinguishes between same-chain and cross-chain deployment. 
+If the required liquidity already exists on the right chain in the right asset, Hako can deploy it locally. 
+If not, capital is first routed to another Hako vault and only then deployed from that destination vault into a local external venue.
+
+## Using NEAR Intents
+
+Hako uses [NEAR Intents](https://docs.near-intents.org/) as its routing layer when assets need to move between vaults on different chains.
+In practice, that means one cross-chain operation can include both the bridge step and, when needed, a swap from one supported stablecoin into another.
+
+The flow is simple:
+
+1. Liquidity leaves a source Hako vault.
+2. NEAR Intents / 1Click routes it to the target chain.
+3. The destination Hako vault receives the funds.
+4. From there, Hako can either keep the liquidity available or allocate it into a local external venue.
+
+This separation matters. Hako does not treat cross-chain routing and external deployment as one combined action.
+Funds arrive at a destination Hako vault first, and only then can that vault decide whether to keep them liquid or deploy them locally.
+
+For the user-facing side, see [Swap](../learn/swap.md).
 
 ```mermaid
-sequenceDiagram
-  participant AL as Allocator
-  participant VH as Hako vault<br>(initial chain)
-  participant NI as Hako NEAR Intents
-  participant VT as Hako vault<br>(target chain)
-  participant EX as External vault
-
-  AL->>VH: Decide to move X stablecoins<br>for allocation
-  AL->>VH: Set allowance for NEAR Intents
-  VH->>NI: Transfer X stablecoins<br>to Hako NEAR account
-
-  AL->>NI: Request swap/bridge<br>to target chain + token
-  NI->>VT: Send Y stablecoins
-
-  AL->>VT: Approve external vault<br>to spend Y tokens (if needed)
-  VT->>EX: Deposit Y tokens
-  EX-->>VT: Strategy shares
-
-  Note over AL: Update internal<br>positions & allocations
+flowchart LR
+  S["Idle liquidity on Hako vault"] --> D{"Deploy locally or move cross-chain?"}
+  D -->| "Local deploy" | L["Allocate into local external vault"]
+  D -->| "Cross-chain" | N["NEAR Intents"]
+  N --> T["Destination Hako vault"]
+  T --> O["Keep liquid or allocate locally"]
+  L --> P["Portfolio value updates"]
+  O --> P
+  P --> H["Update accounting and share price"]
 ```
 
-> **Source vault to NEAR**
->
-> The allocator selects a source vault that currently holds liquid stablecoins. It instructs the vault to approve the NEAR Intents contract for a specific amount, then calls NEAR Intents to pull those tokens into the Hako NEAR account.
->
-> **On NEAR**
->
-> Inside NEAR Intents, the assets can be:
->
-> * Swapped between stablecoins
-> * Prepared quote to be bridged to a target chain
->
-> **NEAR to target vault**
->
-> NEAR Intents sends the selected stablecoin to a Hako vault on the target chain. This may be the same contract that accepts user deposits on that chain or a dedicated vault address.
->
-> **Target vault to external vault**
->
-> On the target chain, the Hako vault:
->
-> * Approves the external vault contract to use the received stablecoins.
-> * Calls the external vault's deposit function.
-> * Receives strategy shares that represent its position in that external vault.
+## Vault Share Price
 
-### Withdrawal Lifecycle
+Hako keeps one canonical view of managed assets and one share price for the vault product.
+That share price is based on the full portfolio, not just the idle balances visible on one chain.
 
-This section explains what happens inside Hako after you request a withdrawal. It focuses on internal mechanics and how withdrawals interact with vault allocations.
+In practice, that portfolio view includes liquid balances held in Hako vaults, assets deployed into external venues, 
+and assets that are temporarily moving through the cross-chain routing layer. 
+As positions change, Hako refreshes portfolio state across chains and reconciles those balances and positions back into the home-vault accounting layer.
 
-{% content-ref url="withdrawal-queue.md" %}
-[withdrawal-queue.md](withdrawal-queue.md)
-{% endcontent-ref %}
+That is what allows deposits, withdrawals, and share value to stay tied to the total portfolio rather than to one local liquidity pool. 
+Users enter from different chains, but the vault product still behaves like one managed pool.
 
-### Hako Admin Wallet
+## Controls
 
-Most operational transactions in Hako are signed by a dedicated `Admin Wallet`. This wallet triggers on-chain actions on the home and remote vaults: recording deposits that arrived on remote chains, moving liquidity between vaults and NEAR Intents, interacting with external vaults, and finalizing withdrawals.
+Operational actions in Hako are executed through the Hako Multisig Wallet, using [Safe multisig](https://docs.safe.global/advanced/smart-account-overview).
 
-User actions stay under user control: deposits are normal token transfers from user wallets, and withdrawals are authorized by users signing typed messages.
+Hako Multisig Wallet is used for:
 
-`Admin Wallet` can move vault liquidity within the allowed paths of the protocol, it is part of the overall risk model. If this key were ever compromised, an attacker could attempt to use the same operational permissions that the allocator uses.
+- Rebalancing liquidity between Hako vaults
+- Routing assets through NEAR Intents
+- Allocating into, or unwinding from, approved external vaults
+- Enabling or disabling supported vaults and operational settings
+- Completing the cross-chain operational steps required to keep deposits, withdrawals, and portfolio accounting in sync
+
+The multisig controls protocol operations around allocation, routing, and settlement across chains.
+At the same time, users still initiate deposits from their own wallets, and withdrawals still begin from user-authorized requests.
 
 {% hint style="info" %}
-To reduce this single-key risk and better match institutional expectations, we plan to migrate `Admin Wallet` to an **MPC-based** setup, where control is split across multiple parties and no single key is sufficient to operate it.
+As Hako expands its public tooling, this control layer can be extended with third-party validators once the public SDK is ready.
 {% endhint %}
+
+For the broader trust and risk model behind these operations, see [Risks](risks.md).
