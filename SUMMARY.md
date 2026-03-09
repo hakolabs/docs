@@ -33,6 +33,7 @@
           kind: openapi
           spec: hako-api
     ```
+* [Analytics](integration/analytics.md)
 
 ## VAULTS
 
@@ -40,3 +41,7 @@
 * [Contract Schema](vaults/contract-schema.md)
 * [Contract Addresses](vaults/contract-addresses.md)
 * [Audits](vaults/audits.md)
+
+***
+
+* [Hako Protocol | Dune](hako-protocol-or-dune.md)
