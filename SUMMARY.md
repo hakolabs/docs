@@ -33,6 +33,7 @@
           kind: openapi
           spec: hako-api
     ```
+* [Analytics](integration/analytics.md)
 
 ## VAULTS
 
