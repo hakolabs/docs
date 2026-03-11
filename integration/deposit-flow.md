@@ -58,7 +58,7 @@ npm run strategy:list
 **HTTP**
 
 ```bash
-curl "https://app.hakolabs.app/v1/strategy/stable_vault" \
+curl "https://api.hakolabs.app/v1/strategy/stable_vault" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>"
 ```
 
@@ -76,7 +76,7 @@ npm run quote:deposit -- --chain base --token USDC --amount 25 --address 0x_your
 **HTTP**
 
 ```bash
-curl -X POST "https://app.hakolabs.app/v1/quotes/deposit" \
+curl -X POST "https://api.hakolabs.app/v1/quotes/deposit" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>" \
   -d '{
@@ -103,7 +103,7 @@ npm run deposit -- --chain base --token USDC --amount 25
 **HTTP**
 
 ```bash
-curl -X POST "https://app.hakolabs.app/v1/action/deposit" \
+curl -X POST "https://api.hakolabs.app/v1/action/deposit" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>" \
   -d '{
@@ -171,7 +171,7 @@ The report step attaches the real onchain transaction hash to the action.
 **HTTP**
 
 ```bash
-curl -X POST "https://app.hakolabs.app/v1/action/<ACTION_ID>/report" \
+curl -X POST "https://api.hakolabs.app/v1/action/<ACTION_ID>/report" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>" \
   -d '{
@@ -196,12 +196,12 @@ npm run position -- --address 0xYourWallet
 **HTTP**
 
 ```bash
-curl "https://app.hakolabs.app/v1/action/<ACTION_ID>" \
+curl "https://api.hakolabs.app/v1/action/<ACTION_ID>" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>"
 ```
 
 ```bash
-curl "https://app.hakolabs.app/v1/position?address=0xYourWallet&strategyId=stable_vault" \
+curl "https://api.hakolabs.app/v1/position?address=0xYourWallet&strategyId=stable_vault" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>"
 ```
 

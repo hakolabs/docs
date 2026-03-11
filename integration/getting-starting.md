@@ -10,11 +10,11 @@ This page is the fastest path to Hako integration. It explains how to get access
 ## Base URL
 
 ```
-https://app.hakolabs.app/v1
+https://api.hakolabs.app/v1
 ```
 
-* Swagger / API docs: `https://app.hakolabs.app/v1/docs`
-* OpenAPI spec: `https://app.hakolabs.app/v1/openapi.yml`
+* Swagger / API docs: `https://api.hakolabs.app/v1/docs`
+* OpenAPI spec: `https://api.hakolabs.app/v1/openapi.yml`
 
 ## Before You Start
 
@@ -53,7 +53,7 @@ For a successful integration, use this sequence:
 Example deposit quote request:
 
 ```bash
-curl -X POST "https://app.hakolabs.app/v1/quotes/deposit" \
+curl -X POST "https://api.hakolabs.app/v1/quotes/deposit" \
   -H "Content-Type: application/json" \
   -H "X-API-Key: <YOUR_PARTNER_API_KEY>" \
   -d '{
